@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static String baseUrl = "";
+  static const String fixedBaseUrl =
+      "https://quantum-backend-dcfr.onrender.com";
+  static String baseUrl = fixedBaseUrl;
 
-  static void setBaseUrl(String url) {
-    baseUrl = url;
+  static Future<void> loadSavedBaseUrl() async {
+    baseUrl = fixedBaseUrl;
   }
 
   static Future<Map<String, dynamic>> coinFlip(int shots) async {

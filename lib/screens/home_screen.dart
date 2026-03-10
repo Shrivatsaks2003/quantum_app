@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../services/api_service.dart';
 import 'coinflip_screen.dart';
 import 'qrng_screen.dart';
 import 'entanglement_screen.dart';
@@ -13,20 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final TextEditingController _urlController = TextEditingController();
-  bool connected = false;
-
-  void connectBackend() {
-    final url = _urlController.text.trim();
-    if (url.isNotEmpty) {
-      ApiService.setBaseUrl(url);
-      setState(() => connected = true);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Backend connected")),
-      );
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,36 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-            /// 🔹 Backend URL Input
-            const Text(
-              "Backend / ngrok URL",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 6),
-            TextField(
-              controller: _urlController,
-              decoration: const InputDecoration(
-                hintText: "https://xxxxx.ngrok-free.dev",
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 10),
-
-            ElevatedButton(
-              onPressed: connectBackend,
-              child: const Text("Connect Backend"),
-            ),
-
-            const SizedBox(height: 10),
-
-            if (connected)
-              const Text(
-                "Connected ✔",
-                style: TextStyle(color: Colors.green),
-              ),
-
-            const Divider(height: 40),
+            const Divider(height: 20),
 
             /// 🔹 Experiments List
             ExperimentCard(
@@ -96,8 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (_) => const EntanglementScreen()),
+                  MaterialPageRoute(builder: (_) => const EntanglementScreen()),
                 );
               },
             ),

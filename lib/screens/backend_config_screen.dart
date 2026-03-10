@@ -10,17 +10,17 @@ class BackendConfigScreen extends StatefulWidget {
 }
 
 class _BackendConfigScreenState extends State<BackendConfigScreen> {
-  final TextEditingController _controller = TextEditingController();
+  void continueToHome() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const HomeScreen()),
+    );
+  }
 
-  void saveUrl() {
-    final url = _controller.text.trim();
-    if (url.isNotEmpty) {
-      ApiService.setBaseUrl(url);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
-      );
-    }
+  @override
+  void initState() {
+    super.initState();
+    ApiService.loadSavedBaseUrl();
   }
 
   @override
@@ -33,30 +33,18 @@ class _BackendConfigScreenState extends State<BackendConfigScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Enter ngrok Backend URL",
+              "Backend Ready",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             const Text(
-              "Paste the ngrok forwarding URL from your Flask backend.\n"
-              "Example:\nhttps://xxxxx.ngrok-free.dev",
+              "This app is already configured to use your deployed backend.",
             ),
             const SizedBox(height: 20),
-
-            TextField(
-              controller: _controller,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "https://xxxxx.ngrok-free.dev",
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
             Center(
               child: ElevatedButton(
-                onPressed: saveUrl,
-                child: const Text("Connect"),
+                onPressed: continueToHome,
+                child: const Text("Continue"),
               ),
             ),
           ],
